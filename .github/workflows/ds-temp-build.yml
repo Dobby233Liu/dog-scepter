@@ -26,4 +26,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: DogScepterCLI-d45ef44
-        path: cli_win_x64
+        path: build
