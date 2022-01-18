@@ -1,0 +1,29 @@
+name: Build CLI tool NET Bundled
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build DogScepterCLI --no-restore
+    - name: Publish Windows x64 NET CLI Bundled
+      run: dotnet publish DogScepterCLI -c Release -r win-x64 --self-contained true -p:PublishSingleFile=false --output build
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: DogScepterCLI-d45ef44
+        path: cli_win_x64
